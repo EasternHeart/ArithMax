@@ -41,6 +41,15 @@ Website
 
 http://zweb.clanmark.com
 
+About this repo
+===============
+
+Emm... This is the repo of the emulator... 
+
+The emulator uses some different driver code, and maybe a fork of qemu will be here.
+
+Hardware files won't be here.
+
 About us
 ========
 
