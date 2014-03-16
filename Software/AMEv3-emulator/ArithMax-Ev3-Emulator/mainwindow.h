@@ -2,6 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "arithmaxscreen.h"
+#include <QThread>
+#include "qamthread.h"
 
 namespace Ui {
 class MainWindow;
@@ -17,6 +20,8 @@ public:
     
 private:
     Ui::MainWindow *ui;
+    QArithMaxScreen *screen;
+    QAMThread *AMThread;
 };
 
 #endif // MAINWINDOW_H
