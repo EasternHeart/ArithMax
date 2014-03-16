@@ -67,7 +67,7 @@ void Info_main()
   char str[17]="Designed by Zweb";
   sprintf(str,"Flash:%dKB",(sf_size>>10));
   LCD_Clear(0);
-  LCD_String_5X7(0,0 ,(unsigned char*)"CPU:STM32F207VC",1);
+  LCD_String_5X7(0,0 ,(unsigned char*)"Emulator",1);
   LCD_String_5X7(0,8 ,str,1);
   /*sprintf(str,"SD:%dMB",SDCardInfo.CardCapacity>>20);
   LCD_String_5X7(0,16,str,1);
@@ -185,10 +185,10 @@ int amt_main(void)
   
   while(1)
   {
-    Mode_main();
+    //Mode_main();
       //LCD_Clear(0);
       //LCD_String_5X7(0,0,"1:COMP  2:CAS   ",1);
-    //eigenmath_main();
+    eigenmath_main();
     //  for(;;);
   }
   

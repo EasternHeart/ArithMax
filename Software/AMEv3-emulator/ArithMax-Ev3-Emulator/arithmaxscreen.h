@@ -9,7 +9,10 @@ class QArithMaxScreen : public QWidget
 public:
     explicit QArithMaxScreen(QWidget *parent = 0);
     unsigned char ScreenData[12][31]; //96x31x1 bit
-    int lastkey;
+    //int lastkey;
+    //int aKeyPressed;
+    QList<int> keys;
+    bool keysLocked;
     
 signals:
     

@@ -15,7 +15,7 @@ static int i, j, k;
 void
 update_cmd_history(char *s)
 {
-	// reset history pointer
+    // reset history pointer
 
 	k = i;
 
@@ -28,7 +28,7 @@ update_cmd_history(char *s)
 
 	if (i != j && strcmp(s, buf[(i + N - 1) % N]) == 0)
 		return;
-
+    if(buf[i] == NULL) buf[i] = (char*)malloc(strlen(s)+1);
 	strcpy(buf[i],s);
 
 	i = (i + 1) % N;
@@ -39,7 +39,7 @@ update_cmd_history(char *s)
 		j = (j + 1) % N;
 	}
 
-	k = i;
+    k = i;
 }
 
 // k != i indicates curr cmd is historical

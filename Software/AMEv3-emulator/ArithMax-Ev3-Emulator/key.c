@@ -78,8 +78,12 @@ void WaitForKey(void)
 
 unsigned char GetKey(void)
 {
-    while(*AMTlastkey == 255);
-    fprintf(stdout,"Key:%d\n",*AMTlastkey);
-        return (unsigned char) (*AMTlastkey);
+    return AcquireKey();
+    /*int tmp;
+    while(AMTlastkey == 0xFF || AMTlastkey == 130);
+    tmp = AMTlastkey;
+    fprintf(stdout,"Key:%d\n",AMTlastkey);
+    AMTlastkey = 0xFF;
+    return (unsigned char) (tmp);*/
 
 }

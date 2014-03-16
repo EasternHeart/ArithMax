@@ -4,7 +4,7 @@
 
 QAMThread *amtinst;
 
-extern "C" int *AMTlastkey;
+extern "C" int AMTlastkey;
 
 QAMThread::QAMThread(QArithMaxScreen *s, QObject *parent) :
     QThread(parent),screen(s)
@@ -12,7 +12,7 @@ QAMThread::QAMThread(QArithMaxScreen *s, QObject *parent) :
     amtinst = this;
     connect(this,SIGNAL(UpdateScreen()),s,SLOT(update()),Qt::QueuedConnection);
     ScreenBuffer = (unsigned char *)this->screen->ScreenData;
-    AMTlastkey = &s->lastkey;
+    //AMTlastkey = &(s->lastkey);
 }
 
 extern "C" int amt_main(void);
