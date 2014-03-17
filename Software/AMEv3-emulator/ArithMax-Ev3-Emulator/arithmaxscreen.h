@@ -2,6 +2,7 @@
 #define ARITHMAXSCREEN_H
 
 #include <QWidget>
+#include <QQueue>
 
 class QArithMaxScreen : public QWidget
 {
@@ -11,7 +12,7 @@ public:
     unsigned char ScreenData[12][31]; //96x31x1 bit
     //int lastkey;
     //int aKeyPressed;
-    QList<int> keys;
+    QQueue<int> keys;
     bool keysLocked;
     
 signals:

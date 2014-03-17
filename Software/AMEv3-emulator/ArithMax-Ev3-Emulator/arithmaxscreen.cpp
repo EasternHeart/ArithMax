@@ -138,10 +138,10 @@ void QArithMaxScreen::keyPressEvent(QKeyEvent *event)
     switch(event->key())
     {
 #define RESOLVE(a,b) case Qt::Key_##a: \
-    keys.append(KEY_##b); std::cerr << "\nAddKey: " << KEY_##b << std::endl; \
+    keys.push_back(KEY_##b); std::cerr << "\nAddKey: " << KEY_##b << std::endl; \
     break
 #define RESOLVE_ASCII(a,b) case a: \
-    keys.append(KEY_##b); std::cerr << "\nAddKey: " << KEY_##b << std::endl; \
+    keys.push_back(KEY_##b); std::cerr << "\nAddKey: " << KEY_##b << std::endl; \
     break
         RESOLVE(0,CHAR_0);
         RESOLVE(1,CHAR_1);

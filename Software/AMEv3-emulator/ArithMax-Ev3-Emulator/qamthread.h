@@ -21,6 +21,8 @@ public slots:
 public:
     QArithMaxScreen *screen;
     void US();
+    void USleep(unsigned long);
+    void MSleep(unsigned long);
 };
 
 extern QAMThread *amtinst;

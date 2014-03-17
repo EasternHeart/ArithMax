@@ -37,3 +37,13 @@ void QAMThread::US()
 {
     UpdateScreen();
 }
+
+void QAMThread::USleep(unsigned long a)
+{
+    usleep(a);
+}
+
+void QAMThread::MSleep(unsigned long a)
+{
+    msleep(a);
+}
