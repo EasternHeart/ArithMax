@@ -28,20 +28,32 @@ extern "C"{
     unsigned char AcquireKey()
     {
        // while(amtinst->screen->keysLocked || amtinst->screen->keys.length() == 0);
+        //while(amtinst->screen->keysLocked == NULL)AMTSleep(50);
         loop:while(true)
         {
-            while(amtinst->screen->keysLocked);
-            amtinst->screen->keysLocked = true;
-            if(!amtinst->screen->keys.empty())break;
-            amtinst->screen->keysLocked = false;
+            //while(amtinst->screen->keysLocked);
+            //amtinst->screen->keysLocked = true;
+            amtinst->screen->keysLocked.lock();
+            if(!amtinst->screen->keys.empty())
+            {
+                //amtinst->screen->keysLocked.unlock();
+                break;
+            }
+            //amtinst->screen->keysLocked = false;
+            amtinst->screen->keysLocked.unlock();
             AMTSleep(50);
         }
-        amtinst->screen->keysLocked = true;
-        if(amtinst->screen->keys.empty())goto loop;
-        unsigned char tmp = (unsigned char)amtinst->screen->keys.front();
+        //amtinst->screen->keysLocked = true;
+        //amtinst->screen->keysLocked.lock();
+        if(amtinst->screen->keys.empty())
+        {
+            amtinst->screen->keysLocked.unlock();
+            goto loop;
+        }
+        unsigned char tmp = amtinst->screen->keys.front();
         std::cerr << "key found: " << (int)tmp << std::endl;
-        amtinst->screen->keys.pop_front();
-        amtinst->screen->keysLocked = false;
+        amtinst->screen->keys.pop();
+        amtinst->screen->keysLocked.unlock();
         return tmp;
     }
 }

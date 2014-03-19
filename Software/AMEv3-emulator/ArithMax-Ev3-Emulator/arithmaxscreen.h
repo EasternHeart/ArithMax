@@ -3,6 +3,10 @@
 
 #include <QWidget>
 #include <QQueue>
+#include <QSemaphore>
+#include <QMutex>
+
+#include <queue>
 
 class QArithMaxScreen : public QWidget
 {
@@ -12,8 +16,9 @@ public:
     unsigned char ScreenData[12][31]; //96x31x1 bit
     //int lastkey;
     //int aKeyPressed;
-    QQueue<int> keys;
-    bool keysLocked;
+    //QQueue<unsigned char> keys;
+    std::queue<unsigned char> keys;
+    QMutex keysLocked;
     
 signals:
     

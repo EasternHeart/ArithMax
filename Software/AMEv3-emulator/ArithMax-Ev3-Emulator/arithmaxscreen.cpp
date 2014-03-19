@@ -7,7 +7,7 @@
 extern "C" {extern int AMTlastkey;}
 
 QArithMaxScreen::QArithMaxScreen(QWidget *parent) :
-    QWidget(parent)
+    QWidget(parent), keysLocked(QMutex::Recursive)
 {
     for(int i = 0;i<12;i++)
     {
@@ -15,7 +15,8 @@ QArithMaxScreen::QArithMaxScreen(QWidget *parent) :
             ScreenData[i][j] = (unsigned char) (std::rand() % 256);
     }
     grabKeyboard();
-    keysLocked = false;
+    //keysLocked = new QSemaphore(1);
+    //keysLocked = false;
 }
 
 void QArithMaxScreen::paintEvent(QPaintEvent *event)
@@ -133,15 +134,16 @@ void QArithMaxScreen::paintEvent(QPaintEvent *event)
 
 void QArithMaxScreen::keyPressEvent(QKeyEvent *event)
 {
-    while(keysLocked);
-    keysLocked = true;
+    //while(keysLocked);
+    //keysLocked = true;
+    keysLocked.lock();
     switch(event->key())
     {
 #define RESOLVE(a,b) case Qt::Key_##a: \
-    keys.push_back(KEY_##b); std::cerr << "\nAddKey: " << KEY_##b << std::endl; \
+    keys.push(KEY_##b); std::cerr << "\nAddKey: " << KEY_##b << std::endl; \
     break
 #define RESOLVE_ASCII(a,b) case a: \
-    keys.push_back(KEY_##b); std::cerr << "\nAddKey: " << KEY_##b << std::endl; \
+    keys.push(KEY_##b); std::cerr << "\nAddKey: " << KEY_##b << std::endl; \
     break
         RESOLVE(0,CHAR_0);
         RESOLVE(1,CHAR_1);
@@ -154,6 +156,7 @@ void QArithMaxScreen::keyPressEvent(QKeyEvent *event)
         RESOLVE(8,CHAR_8);
         RESOLVE(9,CHAR_9);
         RESOLVE(Return,CTRL_EXE);
+        RESOLVE(Enter,CTRL_EXE);
         RESOLVE(Left,CTRL_LEFT);
         RESOLVE(Right,CTRL_RIGHT);
         RESOLVE(Down,CTRL_DOWN);
@@ -172,9 +175,37 @@ void QArithMaxScreen::keyPressEvent(QKeyEvent *event)
         RESOLVE_ASCII('|',CHAR_ROOT);
         RESOLVE_ASCII('(',CHAR_LB);
         RESOLVE_ASCII(')',CHAR_RB);
+        RESOLVE_ASCII('X',CHAR_X);
+        RESOLVE_ASCII('Y',CHAR_Y);
+        RESOLVE_ASCII('A',CHAR_A);
+        RESOLVE_ASCII('B',CHAR_B);
+        RESOLVE_ASCII('C',CHAR_C);
+        RESOLVE_ASCII('D',CHAR_D);
+        RESOLVE_ASCII('E',CHAR_E);
+        RESOLVE_ASCII('F',CHAR_F);
+        RESOLVE_ASCII('M',CHAR_M);
+        RESOLVE_ASCII('G',CHAR_G);
+        RESOLVE_ASCII('H',CHAR_H);
+        RESOLVE_ASCII('I',CHAR_I);
+        RESOLVE_ASCII('J',CHAR_J);
+        RESOLVE_ASCII('K',CHAR_K);
+        RESOLVE_ASCII('L',CHAR_L);
+        RESOLVE_ASCII('N',CHAR_N);
+        RESOLVE_ASCII('O',CHAR_O);
+        RESOLVE_ASCII('P',CHAR_P);
+        RESOLVE_ASCII('Q',CHAR_Q);
+        RESOLVE_ASCII('R',CHAR_R);
+        RESOLVE_ASCII('S',CHAR_S);
+        RESOLVE_ASCII('T',CHAR_T);
+        RESOLVE_ASCII('U',CHAR_U);
+        RESOLVE_ASCII('V',CHAR_V);
+        RESOLVE_ASCII('W',CHAR_W);
+        RESOLVE_ASCII('=',CHAR_EQUAL);
+        RESOLVE_ASCII(',',CHAR_COMMA);
 #undef RESOLVE
     }
-    keysLocked = false;
+    //keysLocked = false;
+    keysLocked.unlock();
     std::cerr << "\nKeyPress: " << event->key() << std::endl;
 }
 
