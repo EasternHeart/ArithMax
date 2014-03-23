@@ -8,7 +8,9 @@
 uint8_t mode=1;//1=覆盖
 
 uint8_t LCD_FB[96*32/8];
+uint8_t CursorX,CursorY,CursorEn=0;
 uint8_t m=1;
+uint8_t LCD_FB_Touched = 0;
 
 uint8_t *Curr_Font;
 
@@ -92,7 +94,7 @@ void LCD_Clear(u8 c)
 {
   u16 i;
 
-  for(i=0;i<31*12;i++)
+  for(i=0;i<32*12;i++)
   {
       ScreenBuffer[i]=c;
   }
@@ -165,8 +167,8 @@ void LCD_Point(u8 x,u8 y,u8 color)
       //LCD_FB[(y_byte)*96+x]|=(0x80>>y_bit);
     //else
       //LCD_FB[(y_byte)*96+x]&=~(0x80>>y_bit);
-    if(color) ScreenBuffer[(x_byte)*31 + y] |= (1 << x_bit);
-    else ScreenBuffer[(x_byte)*31 + y] &= ~(1 << x_bit);
+    if(color) ScreenBuffer[(x_byte)*32 + y] |= (1 << x_bit);
+    else ScreenBuffer[(x_byte)*32 + y] &= ~(1 << x_bit);
     //fprintf(stderr,"%d %d %d \n",(int)x,(int)y,(int)color);
   }
 }
@@ -317,6 +319,18 @@ void LCD_Display_ASCII_8X16_Chr(u16 left,u16 top,u8 chr,u16 color)
     }
     ptr++;
   }
+  LCD_FB_Touched = 0;
+  /*if ((CursorEn)&&(CursorState))
+  {
+    rx=CursorX+36;
+    LCD_WriteCmd(0xee);
+    LCD_WriteCmd(0xb0|(3-CursorY));
+    LCD_WriteCmd(0x10|(rx>>4));
+    LCD_WriteCmd(0x00|(rx&0x0f));
+    LCD_WriteCmd(0xe0);
+    LCD_WriteDat(0xFF);
+    LCD_WriteDat(0xFF);
+  }*/
 }
 
 //在指定位置显示ASCII 8*16文字

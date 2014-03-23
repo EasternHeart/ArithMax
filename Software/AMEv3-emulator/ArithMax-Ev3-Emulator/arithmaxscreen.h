@@ -13,7 +13,7 @@ class QArithMaxScreen : public QWidget
     Q_OBJECT
 public:
     explicit QArithMaxScreen(QWidget *parent = 0);
-    unsigned char ScreenData[12][31]; //96x31x1 bit
+    unsigned char ScreenData[12][32]; //96x32x1 bit
     //int lastkey;
     //int aKeyPressed;
     //QQueue<unsigned char> keys;

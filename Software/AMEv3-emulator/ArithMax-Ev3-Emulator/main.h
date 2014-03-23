@@ -8,6 +8,7 @@ extern u8 ShiftState;
 
 extern const unsigned char gImage_mainlogo[384];
 extern const unsigned char Font_Ascii_5X7E_Menu[];
+extern const unsigned char Font_Ascii_5X7E[];
 
 void Setup_main();
 void About_main();

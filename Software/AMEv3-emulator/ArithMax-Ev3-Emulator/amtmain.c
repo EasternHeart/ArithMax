@@ -100,9 +100,109 @@ void Contrast_main()
   }
 }
 
+void Diag_main()
+{
+  u8 key;
+  u16 i;
+  LCD_Clear(0);
+  LCD_String_5X7(0,1 ,"DIAGNOSTIC",1);
+  LCD_String_5X7(0,24,"Press AC",1);
+  LCD_Update();
+  key=GetKey();
+  if (key!=KEY_CHAR_9) return;
+  LCD_Clear(0xff);
+  LCD_Update();
+  /*LCD_WriteCmd(0xee);
+  LCD_WriteCmd(0xb8);
+  LCD_WriteCmd(0x12);
+  LCD_WriteCmd(0x04);
+  LCD_WriteCmd(0xe0); 
+  for (i=0;i<96;i++)
+    LCD_WriteDat(0x01);*/
+  WaitForCertainKey(KEY_CTRL_EXE);
+  LCD_Clear(0x00);
+  /*LCD_Update();
+  LCD_WriteCmd(0xee);
+  LCD_WriteCmd(0xb8);
+  LCD_WriteCmd(0x12);
+  LCD_WriteCmd(0x04);
+  LCD_WriteCmd(0xe0); 
+  for (i=0;i<96;i++)
+    LCD_WriteDat(0x00);*/
+  WaitForCertainKey(KEY_CTRL_EXE);
+  LCD_Line(0,0,95,0,1);
+  LCD_Line(0,0,0,30,1);
+  LCD_Line(0,30,95,30,1);
+  LCD_Line(95,0,95,30,1);
+  LCD_Update();
+  WaitForCertainKey(KEY_CTRL_EXE);
+  for (i=0;i<384;i+=2)
+  {
+      LCD_FB[i]=0xAA;
+      LCD_FB[i+1]=0x55;
+  }
+  LCD_StatusSet(LCD_STB_Shift,1);
+  LCD_StatusSet(LCD_STB_Alpha,1);
+  LCD_StatusSet(LCD_STB_M,1);
+  LCD_StatusSet(LCD_STB_RCL,1);
+  LCD_StatusSet(LCD_STB_STAT,1);
+  LCD_StatusSet(LCD_STB_MAT,1);
+  LCD_StatusSet(LCD_STB_G,1);
+  LCD_StatusSet(LCD_STB_FIX,1);
+  LCD_StatusSet(LCD_STB_Math,1);
+  LCD_StatusSet(LCD_STB_Disp,1);
+  WaitForCertainKey(KEY_CTRL_EXE);
+  for (i=0;i<384;i+=2)
+  {
+      LCD_FB[i]=0x55;
+      LCD_FB[i+1]=0xAA;
+  }
+  LCD_Update();
+/*  LCD_WriteCmd(0xee);
+  LCD_WriteCmd(0xb8);
+  LCD_WriteCmd(0x12);
+  LCD_WriteCmd(0x04);
+  LCD_WriteCmd(0xe0);
+  for (i=0;i<96;i++)
+    LCD_WriteDat(0x00);*/
+  LCD_StatusSet(LCD_STB_STO,1);
+  LCD_StatusSet(LCD_STB_CMPLX,1);
+  LCD_StatusSet(LCD_STB_VCT,1);
+  LCD_StatusSet(LCD_STB_D,1);
+  LCD_StatusSet(LCD_STB_R,1);
+  LCD_StatusSet(LCD_STB_SCI,1);
+  LCD_StatusSet(LCD_STB_Down,1);
+  LCD_StatusSet(LCD_STB_Up,1);
+  WaitForCertainKey(KEY_CTRL_EXE);
+  LCD_Clear(0);
+  /*LCD_WriteCmd(0xee);
+  LCD_WriteCmd(0xb8);
+  LCD_WriteCmd(0x12);
+  LCD_WriteCmd(0x04);
+  LCD_WriteCmd(0xe0); 
+  for (i=0;i<96;i++)
+    LCD_WriteDat(0x00);*/
+  LCD_String_5X7(0,1 ,"ArithMax E300",1);
+  LCD_String_5X7(0,8 ,"EVT For DEV Only",1);
+  LCD_String_5X7(0,24,"Press AC",1);
+  LCD_Update();
+  WaitForCertainKey(KEY_CTRL_AC);
+  Contrast_main();
+  LCD_Clear(0);
+  LCD_Update();
+  while (key!=KEY_CTRL_EXE)
+  {
+    key=GetKey();
+    LCD_DispNum_5X7(0,0,key,3,1);
+    LCD_Update();
+  }
+}
+
+
 void Setup_main()
 {
   u8 key;
+  u8 cont =1;
   
   LCD_Clear(0x00);
   LCD_String_5X7(0,0 ,"1:Deg   2:Rad   ",1);
@@ -110,13 +210,21 @@ void Setup_main()
   LCD_String_5X7(0,16,"5:Cont. 6:Diag. ",1);
   LCD_String_5X7(0,24,"7:Info  8:About ",1);
   LCD_Update();
-    key=GetKey();
-    switch (key)
-    {
-    case KEY_CHAR_5:Contrast_main();break;
-    case KEY_CHAR_7:Info_main();break;
-    case KEY_CHAR_8:About_main();break;
-    }
+    while (cont==1)
+  {
+     key=GetKey();
+    cont=0;
+     switch (key)
+     {
+    case KEY_CHAR_6:Diag_main();break;
+     case KEY_CHAR_5:Contrast_main();break;
+     case KEY_CHAR_7:Info_main();break;
+     case KEY_CHAR_8:About_main();break;
+    case KEY_CTRL_AC:cont=0;break;
+    default:LCD_StatusSet(LCD_STB_Disp,1);Delay(10);LCD_StatusSet(LCD_STB_Disp,0);cont=1;break;
+     }
+  }
+
 }
 
 void Mode_main()
@@ -128,7 +236,6 @@ void Mode_main()
   LCD_String_5X7(0,24,"7:PRGM  8:USRAPP",1);
  LCD_Update();
  GetKey();
- fprintf(stdout,"A loop.\n");
 }
 
 int amt_main(void)
@@ -156,6 +263,7 @@ int amt_main(void)
   //printf("DAC Inited.\r\n");
   LCD_Init();
   LCD_StatusClear();
+  //LCD_SelectFont((u8 *)Font_Ascii_5X7E);
   LCD_SelectFont(Font_Ascii_5X7E_Menu);
   printf("LCD Inited.\r\n");
   //LCD_Clear(0x00);
@@ -182,6 +290,8 @@ int amt_main(void)
   //KBD_EXTIConfig();
   //PM_LDO_On();
   //state=SD_Init();
+  
+  //PM_SetCPUFreq(16);
   
   while(1)
   {

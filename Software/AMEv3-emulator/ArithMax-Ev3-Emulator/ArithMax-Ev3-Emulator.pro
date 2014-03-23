@@ -154,8 +154,6 @@ SOURCES += main.cpp\
     Eigenmath/ceiling.cpp \
     Eigenmath/binomial.cpp \
     Eigenmath/bignum.cpp \
-    Eigenmath/bessely.cpp \
-    Eigenmath/besselj.cpp \
     Eigenmath/bake.cpp \
     Eigenmath/atomize.cpp \
     Eigenmath/arg.cpp \
@@ -170,7 +168,8 @@ SOURCES += main.cpp\
     Eigenmath/adj.cpp \
     Eigenmath/add.cpp \
     Eigenmath/abs.cpp \
-    Eigenmath/aboutGUI.cpp
+    Eigenmath/aboutGUI.cpp \
+    keyboard.cpp
 
 HEADERS  += mainwindow.h \
     arithmaxscreen.h \
@@ -189,9 +188,11 @@ HEADERS  += mainwindow.h \
     Eigenmath/fileProvider.hpp \
     Eigenmath/defs.h \
     Eigenmath/dConsole.h \
-    Eigenmath/aboutGUI.hpp
+    Eigenmath/aboutGUI.hpp \
+    keyboard.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    keyboard.ui
 
 OTHER_FILES += \
     Eigenmath/test-script.txt \

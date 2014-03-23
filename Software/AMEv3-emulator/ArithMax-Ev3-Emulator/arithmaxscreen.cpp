@@ -27,7 +27,7 @@ void QArithMaxScreen::paintEvent(QPaintEvent *event)
     int yperpoint = size.height() / 31;
     for(int i = 0;i<12;i++)
     {
-        for(int j = 0;j<31;j++)
+        for(int j = 0;j<32;j++)
         {
 #define DRAWPOINT(a) do{ \
             painter.save(); \
@@ -200,6 +200,7 @@ void QArithMaxScreen::keyPressEvent(QKeyEvent *event)
         RESOLVE_ASCII('U',CHAR_U);
         RESOLVE_ASCII('V',CHAR_V);
         RESOLVE_ASCII('W',CHAR_W);
+        RESOLVE_ASCII('Z',CHAR_Z);
         RESOLVE_ASCII('=',CHAR_EQUAL);
         RESOLVE_ASCII(',',CHAR_COMMA);
 #undef RESOLVE
