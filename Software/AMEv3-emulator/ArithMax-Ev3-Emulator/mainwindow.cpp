@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->verticalLayout_2->addWidget(screen);
     screen->show();
     //this->setCentralWidget(screen);
-    kbd = new Keyboard(ui->verticalWidget);
+    kbd = new Keyboard(screen,ui->verticalWidget);
     ui->verticalLayout_3->addWidget(kbd);
     kbd->show();
     AMThread = new QAMThread(screen);
