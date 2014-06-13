@@ -11,7 +11,7 @@ extern "C" {
 #include "aboutGUI.hpp"
 
 //#include "graphicsProvider.hpp"
-#define LINE_ROW_MAX    4
+#define LINE_ROW_MAX    16
 #define LINE_COL_MAX    16
 
 typedef unsigned int    uint;
@@ -240,17 +240,17 @@ int dGetLine (char * s,int max) // This function is depended on dConsole
                         int i;
                         for (i=x;i<=LINE_COL_MAX;++i)
                         {
-                                locate(i,y);print((uchar*)" ");
+                                locate(i,y-line_start);print((uchar*)" ");
                         }
                         if (pos<width-1)
                         {
-                                locate(x,y);            print((uchar*)s);
-                                locate(x+pos,y);        printCursor();
+                                locate(x,y-line_start);            print((uchar*)s);
+                                locate(x+pos,y-line_start);        printCursor();
                         }
                         else
                         {
-                                locate(x,y);            print((uchar*)s+pos-width+1);
-                                locate(x+width-1,y);    printCursor(); //cursor
+                                locate(x,y-line_start);            print((uchar*)s+pos-width+1);
+                                locate(x+width-1,y-line_start);    printCursor(); //cursor
                         }
                         refresh = 0;
                 }
@@ -424,7 +424,10 @@ int dGetLine (char * s,int max) // This function is depended on dConsole
                   //line_start--;
                   //dConsoleRedraw();
                   //pos=strlen(s);
-                  //refresh = 1;
+                  refresh = 1;
+                  if (line_start>0)
+                    line_start--;
+                  dConsoleRedraw();
                 } else if (key==KEY_CTRL_DOWN) {
                   // go down in command history
                   //do_down_arrow();
@@ -432,6 +435,9 @@ int dGetLine (char * s,int max) // This function is depended on dConsole
                   //dConsoleRedraw();
                   //pos=strlen(s);
                   refresh = 1;
+		  if (line_start<LINE_ROW_MAX-4)
+                    line_start++;
+                  dConsoleRedraw();
                 } else if (key==KEY_CTRL_LEFT) {
                   // move cursor left
                   if(pos<=0) continue;
@@ -481,7 +487,8 @@ void dConsoleRedraw()
         int i,j, iresult;
         LCD_Clear(0);
 
-        for(i=0,j=line_start;i<line_count;++i)
+        for(i=0,j=line_start;i<4;++i)
+
         {
                 locate(1,i+1);print((uchar*)line_buf[j]);
                 if (++j>=LINE_ROW_MAX) j = 0;
@@ -490,6 +497,7 @@ void dConsoleRedraw()
 }
 void dConsolePutChar (char c)
 {
+        int i;
         if (line_count == 0) line_count = 1;
         if (c != '\n')
                 line_buf[line_index][line_x++] = c;
@@ -506,21 +514,29 @@ void dConsolePutChar (char c)
                 if (line_count<LINE_ROW_MAX)
                 {
                         ++line_count;
+                        line_index++;
                 }
                 else
                 {
-                        line_start++;
-                        if (line_start>=LINE_ROW_MAX) line_start = 0;
+//                        line_start++;
+//                        if (line_start>=LINE_ROW_MAX) line_start = 0;
+                          for(i=1;i<LINE_ROW_MAX;i++)
+                          strcpy(line_buf[i-1],line_buf[i]);
                 }
                 line_index++;
                 if (line_index>=LINE_ROW_MAX) line_index = 0;
         }
         line_buf[line_index][line_x] = '\0';
+        if (line_index>3)
+          line_start=line_index-3;
+        else
+          line_start=0;
         dConsoleRedraw();
 }
 
 void dConsolePut(const char * str)
 {
+	int i;
         if (line_count == 0) line_count = 1;
         for (;*str;++str)
         {
@@ -539,14 +555,18 @@ void dConsolePut(const char * str)
                         if (line_count<LINE_ROW_MAX)
                         {
                                 ++line_count;
+                                line_index++;
                         }
                         else
                         {
-                                line_start++;
-                                if (line_start>=LINE_ROW_MAX) line_start = 0;
+//                                line_start++;
+//                                if (line_start>=LINE_ROW_MAX) line_start = 0;
+                                for(i=1;i<LINE_ROW_MAX;i++)
+                                  strcpy(line_buf[i-1],line_buf[i]);
                         }
-                        line_index++;
-                        if (line_index>=LINE_ROW_MAX) line_index = 0;
+//                        line_index++;
+//                        if (line_index>=LINE_ROW_MAX) line_index = 0;
+
                 }
         }
         line_buf[line_index][line_x] = '\0';

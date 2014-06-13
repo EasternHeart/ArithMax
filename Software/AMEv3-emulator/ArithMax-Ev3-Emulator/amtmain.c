@@ -54,10 +54,10 @@ void Delay(uint32_t nTime)
 void About_main()
 {
  LCD_Clear(0);
- LCD_String_5X7(0,0 ,(unsigned char*)"This calc. is   ",1);
- LCD_String_5X7(0,8 ,(unsigned char*)"Designed by Zweb",1);
- LCD_String_5X7(0,16,(unsigned char*)"of Ningbo High  ",1);
- LCD_String_5X7(0,24,(unsigned char*)"School.         ",1);
+ LCD_String_5X7(0,0 ,(unsigned char*)"ArithMax E301 r1",1);
+ LCD_String_5X7(0,8 ,(unsigned char*)"Software:1.0.DEV",1);
+ LCD_String_5X7(0,16,(unsigned char*)"",1);
+ LCD_String_5X7(0,24,(unsigned char*)"Designed by Zweb",1);
  LCD_Update();
  GetKey();
 }
@@ -106,7 +106,6 @@ void Diag_main()
   u16 i;
   LCD_Clear(0);
   LCD_String_5X7(0,1 ,"DIAGNOSTIC",1);
-  LCD_String_5X7(0,24,"Press AC",1);
   LCD_Update();
   key=GetKey();
   if (key!=KEY_CHAR_9) return;

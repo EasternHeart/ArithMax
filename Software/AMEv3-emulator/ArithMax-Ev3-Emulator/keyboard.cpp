@@ -5,6 +5,8 @@
 
 #include <iostream>
 
+#include <cstdlib>
+
 Keyboard::Keyboard(QArithMaxScreen *s,QWidget *parent) :
     QWidget(parent),screen(s),
     ui(new Ui::Keyboard)
@@ -337,6 +339,10 @@ void Keyboard::on_pushButton_30_clicked()
 
 void Keyboard::on_pushButton_31_clicked()
 {
+    if(ui->pushButton->isChecked())
+    {
+        std::exit(0);
+    }
     KEY(CTRL_AC);
 }
 

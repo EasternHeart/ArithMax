@@ -169,7 +169,8 @@ SOURCES += main.cpp\
     Eigenmath/add.cpp \
     Eigenmath/abs.cpp \
     Eigenmath/aboutGUI.cpp \
-    keyboard.cpp
+    keyboard.cpp \
+    g2048.c
 
 HEADERS  += mainwindow.h \
     arithmaxscreen.h \
@@ -189,7 +190,8 @@ HEADERS  += mainwindow.h \
     Eigenmath/defs.h \
     Eigenmath/dConsole.h \
     Eigenmath/aboutGUI.hpp \
-    keyboard.h
+    keyboard.h \
+    g2048.h
 
 FORMS    += mainwindow.ui \
     keyboard.ui
