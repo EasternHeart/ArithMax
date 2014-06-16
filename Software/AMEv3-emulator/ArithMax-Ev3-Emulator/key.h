@@ -41,7 +41,7 @@ unsigned char GetKey(void);
 #define KEY_CHAR_ATAN           21+128
 #define KEY_CHAR_FRAC           19
 #define KEY_CHAR_FACT           8+128
-#define KEY_CHAR_IMGNRY         32+64
+#define KEY_CHAR_IMGNRY         32+128
 #define KEY_CHAR_PI             34+128
 #define KEY_CHAR_EXP            34
 #define KEY_CHAR_PMINUS         26

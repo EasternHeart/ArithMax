@@ -256,6 +256,7 @@ int dGetLine (char * s,int max) // This function is depended on dConsole
                 }
                 //int keyflag = GetSetupSetting( (unsigned int)0x14);
                 key=GetKey();
+
                 if (key==KEY_CHAR_PLUS) {
                   if ((int)strlen(s)>=max) continue;
                   if(strlen(s)==0) {
@@ -314,7 +315,11 @@ int dGetLine (char * s,int max) // This function is depended on dConsole
                   if ((int)strlen(s)+4>=max) continue;
                   append(s, (char*)"sqrt(", pos);
                   pos=pos+5; refresh = 1;
-                } else if (key==KEY_CHAR_CUBEROOT) {
+                }else if (key==KEY_CHAR_H) {
+                    if ((int)strlen(s)+4>=max) continue;
+                    append(s, (char*)"h", pos);
+                    pos=pos+1; refresh = 1;
+                  } else if (key==KEY_CHAR_CUBEROOT) {
                   if ((int)strlen(s)+5>=max) continue;
                   append(s, (char*)"^(1/3)", pos); // example: to get cubic root of 27, do 27^(1/3)
                   pos=pos+6; refresh = 1;
@@ -523,8 +528,8 @@ void dConsolePutChar (char c)
                           for(i=1;i<LINE_ROW_MAX;i++)
                           strcpy(line_buf[i-1],line_buf[i]);
                 }
-                line_index++;
-                if (line_index>=LINE_ROW_MAX) line_index = 0;
+                //line_index++;
+                //if (line_index>=LINE_ROW_MAX) line_index = 0;
         }
         line_buf[line_index][line_x] = '\0';
         if (line_index>3)

@@ -191,7 +191,8 @@ HEADERS  += mainwindow.h \
     Eigenmath/dConsole.h \
     Eigenmath/aboutGUI.hpp \
     keyboard.h \
-    g2048.h
+    g2048.h \
+    key.h
 
 FORMS    += mainwindow.ui \
     keyboard.ui
